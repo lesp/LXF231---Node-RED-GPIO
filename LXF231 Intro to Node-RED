@@ -1,0 +1,245 @@
+[
+    {
+        "id": "a452fe52.6aa04",
+        "type": "ui_slider",
+        "z": "2e2dcdf6.e2b322",
+        "name": "PWM Control",
+        "label": "PWM Control",
+        "group": "5f14030f.e792dc",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "topic": "",
+        "min": 0,
+        "max": "100",
+        "step": 1,
+        "x": 290,
+        "y": 240,
+        "wires": [
+            [
+                "cce69bfa.508978",
+                "3e5ae197.a191ce"
+            ]
+        ]
+    },
+    {
+        "id": "cce69bfa.508978",
+        "type": "rpi-gpio out",
+        "z": "2e2dcdf6.e2b322",
+        "name": "Red LED",
+        "pin": "11",
+        "set": "",
+        "level": "0",
+        "freq": "",
+        "out": "pwm",
+        "x": 540,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "3e5ae197.a191ce",
+        "type": "ui_gauge",
+        "z": "2e2dcdf6.e2b322",
+        "name": "LED Brightness",
+        "group": "5f14030f.e792dc",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "LED Brightness",
+        "label": "LED Brightness",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 551,
+        "y": 177,
+        "wires": []
+    },
+    {
+        "id": "7d22f61b.71b748",
+        "type": "rpi-gpio out",
+        "z": "2e2dcdf6.e2b322",
+        "name": "Green LED",
+        "pin": "13",
+        "set": false,
+        "level": "0",
+        "freq": "",
+        "out": "out",
+        "x": 350,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "1d9addb0.a7a942",
+        "type": "ui_switch",
+        "z": "2e2dcdf6.e2b322",
+        "name": "Green LED",
+        "label": "Green LED",
+        "group": "5f14030f.e792dc",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "",
+        "style": "",
+        "onvalue": "1",
+        "onvalueType": "num",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "0",
+        "offvalueType": "num",
+        "officon": "",
+        "offcolor": "",
+        "x": 130,
+        "y": 80,
+        "wires": [
+            [
+                "7d22f61b.71b748"
+            ]
+        ]
+    },
+    {
+        "id": "15584302.b8fb1d",
+        "type": "rpi-gpio in",
+        "z": "2e2dcdf6.e2b322",
+        "name": "Button",
+        "pin": "15",
+        "intype": "up",
+        "debounce": "25",
+        "read": false,
+        "x": 170,
+        "y": 440,
+        "wires": [
+            [
+                "9d0bee7a.3e2e9"
+            ]
+        ]
+    },
+    {
+        "id": "80edd807.810f68",
+        "type": "ui_text",
+        "z": "2e2dcdf6.e2b322",
+        "group": "5f14030f.e792dc",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "name": "Button Status",
+        "label": "Button Status",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "x": 940,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "76a8eb7d.56f284",
+        "type": "change",
+        "z": "2e2dcdf6.e2b322",
+        "name": "Button pressed",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Button Pressed",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 700,
+        "y": 400,
+        "wires": [
+            [
+                "80edd807.810f68"
+            ]
+        ]
+    },
+    {
+        "id": "9d0bee7a.3e2e9",
+        "type": "switch",
+        "z": "2e2dcdf6.e2b322",
+        "name": "if input is 1",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "0",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 2,
+        "x": 390,
+        "y": 440,
+        "wires": [
+            [
+                "76a8eb7d.56f284"
+            ],
+            [
+                "dd989744.3d2798"
+            ]
+        ]
+    },
+    {
+        "id": "dd989744.3d2798",
+        "type": "change",
+        "z": "2e2dcdf6.e2b322",
+        "name": "Waiting for press",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Waiting for button press",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 710,
+        "y": 480,
+        "wires": [
+            [
+                "80edd807.810f68"
+            ]
+        ]
+    },
+    {
+        "id": "5f14030f.e792dc",
+        "type": "ui_group",
+        "z": "",
+        "name": "GPIO Controller",
+        "tab": "630c1101.94cb",
+        "order": 1,
+        "disp": true,
+        "width": "6"
+    },
+    {
+        "id": "630c1101.94cb",
+        "type": "ui_tab",
+        "z": "",
+        "name": "LXF Controller",
+        "icon": "dashboard",
+        "order": 1
+    }
+]
